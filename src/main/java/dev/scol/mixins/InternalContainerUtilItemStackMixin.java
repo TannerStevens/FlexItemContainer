@@ -10,10 +10,6 @@ import com.hypixel.hytale.server.core.inventory.transaction.ItemStackSlotTransac
 import com.hypixel.hytale.server.core.inventory.transaction.ItemStackTransaction;
 import com.hypixel.hytale.server.core.inventory.transaction.ListTransaction;
 import com.hypixel.hytale.server.core.inventory.transaction.SlotTransaction;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,6 +25,14 @@ import java.util.logging.Level;
 
 @Mixin({InternalContainerUtilItemStack.class})
 public class InternalContainerUtilItemStackMixin {
+    private static final boolean bLog = false;
+    private static void log(String context) {
+        if(bLog) {
+            HytaleLogger logger = HytaleLogger.get("FlexItemContainer-Hyxin");
+            logger.at(Level.INFO).log("InternalContainerUtilItemStack::"+context);
+        }
+    }
+
     @Inject(
         method = "testAddToExistingSlot(Lcom/hypixel/hytale/server/core/inventory/container/ItemContainer;SLcom/hypixel/hytale/server/core/inventory/ItemStack;IIZ)I",
         at = @At("HEAD")
@@ -37,8 +41,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, ItemStack itemStack, int itemMaxStack, int testQuantityRemaining, boolean filter,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testAddToExistingSlot"+" ["+container.getCapacity()+"]");
+        log("testAddToExistingSlot"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -49,8 +52,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, @Nonnull ItemStack itemStack, int itemMaxStack, boolean filter,
         CallbackInfoReturnable<ItemStackSlotTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addToExistingSlot ["+container.getCapacity()+"] -> "+slot+"("+itemStack.getQuantity()+"/"+itemMaxStack+")");
+        log("internal_addToExistingSlot ["+container.getCapacity()+"] -> "+slot+"("+itemStack.getQuantity()+"/"+itemMaxStack+")");
     }
 
     @Inject(
@@ -61,8 +63,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, @Nonnull ItemStack itemStack, int itemMaxStack, boolean filter,
         CallbackInfoReturnable<ItemStackSlotTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addToEmptySlot"+" ["+container.getCapacity()+"] -> "+slot+"("+itemStack.getQuantity()+"/"+itemMaxStack+")");
+        log("internal_addToEmptySlot"+" ["+container.getCapacity()+"] -> "+slot+"("+itemStack.getQuantity()+"/"+itemMaxStack+")");
     }
 
     @Inject(
@@ -73,8 +74,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, ItemStack itemStack, int itemMaxStack, int testQuantityRemaining, boolean filter,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testAddToEmptySlots"+" ["+container.getCapacity()+"]");
+        log("testAddToEmptySlots"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -85,8 +85,7 @@ public class InternalContainerUtilItemStackMixin {
        @Nonnull ItemContainer container, short slot, @Nonnull ItemStack itemStack, boolean allOrNothing, boolean filter,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addItemStackToSlot ["+container.getCapacity()+"] -> "+slot);
+        log("internal_addItemStackToSlot ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -97,8 +96,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, ItemStack itemStack, boolean filter,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_setItemStackForSlot ["+container.getCapacity()+"] -> "+slot);
+        log("internal_setItemStackForSlot ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -109,8 +107,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, boolean filter,
         CallbackInfoReturnable<SlotTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStackFromSlot ["+container.getCapacity()+"] -> "+slot);
+        log("internal_removeItemStackFromSlot ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -121,8 +118,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, int quantityToRemove, boolean allOrNothing, boolean filter,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStackFromSlot2 ["+container.getCapacity()+"] -> "+slot);
+        log("internal_removeItemStackFromSlot2 ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -133,8 +129,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, @Nullable ItemStack itemStackToRemove, int quantityToRemove, boolean allOrNothing, boolean filter,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStackFromSlot3 ["+container.getCapacity()+"] -> "+slot);
+        log("internal_removeItemStackFromSlot3 ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -145,8 +140,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, @Nullable ItemStack itemStackToRemove, int quantityToRemove, boolean allOrNothing, boolean filter, BiPredicate<ItemStack, ItemStack> predicate,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStackFromSlot4 ["+container.getCapacity()+"] -> "+slot);
+        log("internal_removeItemStackFromSlot4 ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -157,8 +151,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, ItemStack itemStack, int testQuantityRemaining, boolean filter,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testRemoveItemStackFromSlot ["+container.getCapacity()+"] -> "+slot);
+        log("testRemoveItemStackFromSlot ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -169,8 +162,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short slot, ItemStack itemStack, int testQuantityRemaining, boolean filter, BiPredicate<ItemStack, ItemStack> predicate,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testRemoveItemStackFromSlot2 ["+container.getCapacity()+"] -> "+slot);
+        log("testRemoveItemStackFromSlot2 ["+container.getCapacity()+"] -> "+slot);
     }
 
     @Inject(
@@ -181,8 +173,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, @Nonnull ItemStack itemStack, boolean allOrNothing, boolean fullStacks, boolean filter,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addItemStack"+" ["+container.getCapacity()+"]");
+        log("internal_addItemStack"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -193,8 +184,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, @Nullable List<ItemStack> itemStacks, boolean allOrNothing, boolean fullStacks, boolean filter,
         CallbackInfoReturnable<ListTransaction<ItemStackTransaction>> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addItemStackS"+" ["+container.getCapacity()+"]");
+        log("internal_addItemStackS"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -205,8 +195,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, short offset, @Nullable List<ItemStack> itemStacks, boolean allOrNothing, boolean filter,
         CallbackInfoReturnable<ListTransaction<ItemStackSlotTransaction>> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addItemStackSOrdered ["+container.getCapacity()+"] -> "+offset);
+        log("internal_addItemStackSOrdered ["+container.getCapacity()+"] -> "+offset);
     }
 
     @Inject(
@@ -217,8 +206,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, ItemStack itemStack, int itemMaxStack, int testQuantityRemaining, boolean filter,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testAddToExistingItemStackS"+" ["+container.getCapacity()+"]");
+        log("testAddToExistingItemStackS"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -229,8 +217,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, @Nonnull ItemStack itemStack, boolean allOrNothing, boolean filter,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStack"+" ["+container.getCapacity()+"]");
+        log("internal_removeItemStack"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -241,8 +228,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, @Nullable List<ItemStack> itemStacks, boolean allOrNothing, boolean filter,
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStackS"+" ["+container.getCapacity()+"]");
+        log("internal_removeItemStackS"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -253,8 +239,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, ItemStack itemStack, int testQuantityRemaining, boolean filter,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testRemoveItemStackFromItems"+" ["+container.getCapacity()+"]");
+        log("testRemoveItemStackFromItems"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -265,8 +250,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, ItemStack itemStack, int testQuantityRemaining, boolean filter,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testRemoveItemStackSlotFromItems"+" ["+container.getCapacity()+"]");
+        log("testRemoveItemStackSlotFromItems"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -277,8 +261,7 @@ public class InternalContainerUtilItemStackMixin {
         @Nonnull ItemContainer container, ItemStack itemStack, int testQuantityRemaining, boolean filter, BiPredicate<ItemStack, ItemStack> predicate,
         CallbackInfoReturnable<Integer> cir
     ) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::testRemoveItemStackSlotFromItems2"+" ["+container.getCapacity()+"]");
+        log("testRemoveItemStackSlotFromItems2"+" ["+container.getCapacity()+"]");
     }
 
     private static int getMaxStack(ItemContainer itemContainer, Item item) {

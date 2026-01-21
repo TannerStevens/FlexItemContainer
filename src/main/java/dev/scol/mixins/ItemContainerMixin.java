@@ -3,35 +3,32 @@ package dev.scol.mixins;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.inventory.MaterialQuantity;
 import com.hypixel.hytale.server.core.inventory.ResourceQuantity;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 
 import com.hypixel.hytale.server.core.inventory.container.SlotReplacementFunction;
 import com.hypixel.hytale.server.core.inventory.container.SortType;
 import com.hypixel.hytale.server.core.inventory.transaction.*;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
 @Mixin({ItemContainer.class})
 public class ItemContainerMixin {
+    private static final boolean bLog = false;
     private static void log(String context) {
-        HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("ItemContainer::"+context);
+        if(bLog) {
+            HytaleLogger logger = HytaleLogger.get("FlexItemContainer-Hyxin");
+            logger.at(Level.INFO).log("ItemContainer::"+context);
+        }
     }
 
     @Inject(

@@ -5,13 +5,14 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
-import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 
 import javax.annotation.Nonnull;
 import java.util.logging.Level;
 
 public class FlexItemContainer extends SimpleItemContainer {
+    public static final boolean bLog = false;
+
     public static final BuilderCodec<FlexItemContainer> CODEC;
     static {
         CODEC = BuilderCodec.<FlexItemContainer>builder(
@@ -45,8 +46,11 @@ public class FlexItemContainer extends SimpleItemContainer {
     }
 
     public int getMaxStack(@Nonnull Item item) {
-        HytaleLogger logger = HytaleLogger.get("FlexContainers");
-        logger.at(Level.INFO).log("FlexItemContainer::getMaxStack");
+        if(bLog) {
+            HytaleLogger logger = HytaleLogger.get("FlexContainers");
+            logger.at(Level.INFO).log("FlexItemContainer::getMaxStack");
+        }
+
         if( this.stackSize < 0 ){
             return item.getMaxStack();
         }
