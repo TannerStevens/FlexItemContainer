@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.logging.Level;
 
-@Debug(export = true, print = true)
 @Mixin({InternalContainerUtilItemStack.class})
 public class InternalContainerUtilItemStackMixin {
     @Inject(
@@ -183,7 +182,7 @@ public class InternalContainerUtilItemStackMixin {
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
         HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::AddItemStack"+" ["+container.getCapacity()+"]");
+        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addItemStack"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -195,7 +194,7 @@ public class InternalContainerUtilItemStackMixin {
         CallbackInfoReturnable<ListTransaction<ItemStackTransaction>> cir
     ) {
         HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::addItemStackS"+" ["+container.getCapacity()+"]");
+        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addItemStackS"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -207,7 +206,7 @@ public class InternalContainerUtilItemStackMixin {
         CallbackInfoReturnable<ListTransaction<ItemStackSlotTransaction>> cir
     ) {
         HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::addItemStackSOrdered ["+container.getCapacity()+"] -> "+offset);
+        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_addItemStackSOrdered ["+container.getCapacity()+"] -> "+offset);
     }
 
     @Inject(
@@ -231,7 +230,7 @@ public class InternalContainerUtilItemStackMixin {
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
         HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::removeItemStack"+" ["+container.getCapacity()+"]");
+        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStack"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -243,7 +242,7 @@ public class InternalContainerUtilItemStackMixin {
         CallbackInfoReturnable<ItemStackTransaction> cir
     ) {
         HytaleLogger logger = HytaleLogger.get("Hyxin");
-        logger.at(Level.INFO).log("InternalContainerUtilItemStack::removeItemStackS"+" ["+container.getCapacity()+"]");
+        logger.at(Level.INFO).log("InternalContainerUtilItemStack::internal_removeItemStackS"+" ["+container.getCapacity()+"]");
     }
 
     @Inject(
@@ -296,7 +295,8 @@ public class InternalContainerUtilItemStackMixin {
         at = @At(
             value = "INVOKE",
             target = "Lcom/hypixel/hytale/server/core/asset/type/item/config/Item;getMaxStack()I"
-        )
+        ),
+        remap = false
     )
     private static int redirectMaxStack(
         Item item,
@@ -334,7 +334,8 @@ public class InternalContainerUtilItemStackMixin {
         at = @At(
             value = "INVOKE",
             target = "Lcom/hypixel/hytale/server/core/asset/type/item/config/Item;getMaxStack()I"
-        )
+        ),
+        remap = false
     )
     private static int redirectMaxStack(
         Item item,
@@ -354,7 +355,8 @@ public class InternalContainerUtilItemStackMixin {
         at = @At(
             value = "INVOKE",
             target = "Lcom/hypixel/hytale/server/core/asset/type/item/config/Item;getMaxStack()I"
-        )
+        ),
+        remap = false
     )
     private static int redirectMaxStack(
         Item item,
